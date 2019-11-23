@@ -1,0 +1,28 @@
+﻿@using ÖğrenciNotMVC.Models.EntityFrameWork
+@model List<Tbl_Kulup>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table table-bordered">
+    <tr>
+        <th>Kulüp ID </th>
+        <th>Kulüp Adı </th>
+        <th>İşlemler</th>
+    </tr>
+    <tbody>
+        @foreach (var klp in Model)
+        {
+        <tr>
+            <td>@klp.KulupId</td>
+            <td>@klp.KulupAd</td>
+            <td><a href="/kulup/Sil/@klp.KulupId" class="btn btn-danger">Sil</a>
+            <a href="/kulup/kulupgetir/@klp.KulupId"class="btn btn-success">Güncelle</a></td>
+        </tr>
+        }
+
+    </tbody>
+
+</table>
+<a href="/kulup/kulupekle" class="btn btn-primary">Yeni Kulüp Ekle</a>

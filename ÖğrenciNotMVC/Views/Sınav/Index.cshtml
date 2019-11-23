@@ -1,0 +1,45 @@
+﻿@using ÖğrenciNotMVC.Models.EntityFrameWork;
+@model List<Tbl_Not>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table table-bordered">
+    <tr>
+        <th>Not ID </th>
+        <th>Ders ID </th>
+        <th>Öğrenci ID </th>
+        <th>1. Sınav </th>
+        <th>2.Sınav </th>
+        <th>3.Sınav </th>
+        <th>Proje </th>
+        <th>Ortalama </th>
+        <th>Durum </th>
+        <th>İşlemler</th>
+    </tr>
+    <tbody>
+        @foreach (var not in Model)
+        {
+        <tr>
+            <td>@not.NotId</td>
+            <td>@not.DersId</td>
+            <td>@not.OgrId</td>
+            <td>@not.Sınav1</td>
+            <td>@not.Sınav2</td>
+            <td>@not.Sınav3</td>
+            <td>@not.Proje</td>
+            <td>@not.Ortalama</td>
+            <td>@not.Durum</td>
+            <td>
+                <a href="/Sınav/sil/@not.NotId" class="btn btn-danger">Sil</a>
+                <a href="/Sınav/sınavgetir/@not.NotId" class="btn btn-success">Güncelle</a>
+            </td>
+        </tr>
+        }
+
+    </tbody>
+
+</table>
+<a href="/Sınav/SınavEkle" class="btn btn-primary">Not Ekle</a>
+

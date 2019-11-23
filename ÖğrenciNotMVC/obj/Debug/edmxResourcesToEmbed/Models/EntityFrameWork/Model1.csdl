@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DbMvcOkulModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Tbl_Dersler">
+    <Key>
+      <PropertyRef Name="DersId" />
+    </Key>
+    <Property Name="DersId" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DersAd" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Tbl_Not" Relationship="Self.FK_Tbl_Not_Tbl_Dersler" FromRole="Tbl_Dersler" ToRole="Tbl_Not" />
+  </EntityType>
+  <EntityType Name="Tbl_Kulup">
+    <Key>
+      <PropertyRef Name="KulupId" />
+    </Key>
+    <Property Name="KulupId" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KulupAd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Tbl_Ogrenciler" Relationship="Self.FK_Tbl_Ogrenciler_Tbl_Kulup" FromRole="Tbl_Kulup" ToRole="Tbl_Ogrenciler" />
+  </EntityType>
+  <EntityType Name="Tbl_Not">
+    <Key>
+      <PropertyRef Name="NotId" />
+    </Key>
+    <Property Name="NotId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DersId" Type="Byte" />
+    <Property Name="OgrId" Type="Int32" />
+    <Property Name="Sınav1" Type="Byte" />
+    <Property Name="Sınav2" Type="Byte" />
+    <Property Name="Sınav3" Type="Byte" />
+    <Property Name="Proje" Type="Byte" />
+    <Property Name="Ortalama" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Durum" Type="Boolean" />
+    <NavigationProperty Name="Tbl_Dersler" Relationship="Self.FK_Tbl_Not_Tbl_Dersler" FromRole="Tbl_Not" ToRole="Tbl_Dersler" />
+    <NavigationProperty Name="Tbl_Ogrenciler" Relationship="Self.FK_Tbl_Not_Tbl_Ogrenciler" FromRole="Tbl_Not" ToRole="Tbl_Ogrenciler" />
+  </EntityType>
+  <EntityType Name="Tbl_Ogrenciler">
+    <Key>
+      <PropertyRef Name="OgrenciId" />
+    </Key>
+    <Property Name="OgrenciId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OgrenciAd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OgrenciSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="OgrenciFotograf" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="OgrenciCinsiyet" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="OgrenciKulup" Type="Byte" />
+    <NavigationProperty Name="Tbl_Kulup" Relationship="Self.FK_Tbl_Ogrenciler_Tbl_Kulup" FromRole="Tbl_Ogrenciler" ToRole="Tbl_Kulup" />
+    <NavigationProperty Name="Tbl_Not" Relationship="Self.FK_Tbl_Not_Tbl_Ogrenciler" FromRole="Tbl_Ogrenciler" ToRole="Tbl_Not" />
+  </EntityType>
+  <Association Name="FK_Tbl_Not_Tbl_Dersler">
+    <End Role="Tbl_Dersler" Type="Self.Tbl_Dersler" Multiplicity="0..1" />
+    <End Role="Tbl_Not" Type="Self.Tbl_Not" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Dersler">
+        <PropertyRef Name="DersId" />
+      </Principal>
+      <Dependent Role="Tbl_Not">
+        <PropertyRef Name="DersId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Ogrenciler_Tbl_Kulup">
+    <End Role="Tbl_Kulup" Type="Self.Tbl_Kulup" Multiplicity="0..1" />
+    <End Role="Tbl_Ogrenciler" Type="Self.Tbl_Ogrenciler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Kulup">
+        <PropertyRef Name="KulupId" />
+      </Principal>
+      <Dependent Role="Tbl_Ogrenciler">
+        <PropertyRef Name="OgrenciKulup" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Not_Tbl_Ogrenciler">
+    <End Role="Tbl_Ogrenciler" Type="Self.Tbl_Ogrenciler" Multiplicity="0..1" />
+    <End Role="Tbl_Not" Type="Self.Tbl_Not" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tbl_Ogrenciler">
+        <PropertyRef Name="OgrenciId" />
+      </Principal>
+      <Dependent Role="Tbl_Not">
+        <PropertyRef Name="OgrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DbMvcOkulEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Tbl_Dersler" EntityType="Self.Tbl_Dersler" />
+    <EntitySet Name="Tbl_Kulup" EntityType="Self.Tbl_Kulup" />
+    <EntitySet Name="Tbl_Not" EntityType="Self.Tbl_Not" />
+    <EntitySet Name="Tbl_Ogrenciler" EntityType="Self.Tbl_Ogrenciler" />
+    <AssociationSet Name="FK_Tbl_Not_Tbl_Dersler" Association="Self.FK_Tbl_Not_Tbl_Dersler">
+      <End Role="Tbl_Dersler" EntitySet="Tbl_Dersler" />
+      <End Role="Tbl_Not" EntitySet="Tbl_Not" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Ogrenciler_Tbl_Kulup" Association="Self.FK_Tbl_Ogrenciler_Tbl_Kulup">
+      <End Role="Tbl_Kulup" EntitySet="Tbl_Kulup" />
+      <End Role="Tbl_Ogrenciler" EntitySet="Tbl_Ogrenciler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Not_Tbl_Ogrenciler" Association="Self.FK_Tbl_Not_Tbl_Ogrenciler">
+      <End Role="Tbl_Ogrenciler" EntitySet="Tbl_Ogrenciler" />
+      <End Role="Tbl_Not" EntitySet="Tbl_Not" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

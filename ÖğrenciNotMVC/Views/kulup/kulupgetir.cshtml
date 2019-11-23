@@ -1,0 +1,19 @@
+﻿@model ÖğrenciNotMVC.Models.EntityFrameWork.Tbl_Kulup
+@{
+    ViewBag.Title = "kulupgetir";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>kulupgetir</h2>
+
+@using (Html.BeginForm("guncelle", "kulup", FormMethod.Post))
+{
+<div class="form-group">
+    @Html.LabelFor(m => m.KulupAd)
+    @Html.TextBoxFor(m => m.KulupAd, new {@class ="form-control"})
+</div>
+    @Html.HiddenFor(m =>m.KulupId)
+ <div style="margin-top:15px">
+     <button class="btn btn-info">Güncelle</button>
+ </div>
+}
